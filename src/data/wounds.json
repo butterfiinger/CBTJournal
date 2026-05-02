@@ -1,0 +1,272 @@
+[
+  {
+    "id": "not_enough",
+    "wound": "I am not enough",
+    "opposite": "I am enough",
+    "aiPhrasing": "times you have been enough",
+    "gentlePrompts": [
+      "Think of someone you consider 'on your level' — someone you'd call good enough. If they are, you are.",
+      "Think of something small you handled this week that you weren't asked to do. That was enough."
+    ]
+  },
+  {
+    "id": "abandoned",
+    "wound": "I am abandoned",
+    "opposite": "I am chosen",
+    "aiPhrasing": "times someone has stayed",
+    "gentlePrompts": [
+      "Think of someone who chose to be with you when they didn't have to.",
+      "Think of someone who came back, even after a hard moment."
+    ]
+  },
+  {
+    "id": "alone",
+    "wound": "I am alone",
+    "opposite": "I am accompanied",
+    "aiPhrasing": "times you have not been alone",
+    "gentlePrompts": [
+      "Think of who you'd actually call if something genuinely went wrong tonight.",
+      "Think of a moment when someone's presence made the room feel different."
+    ]
+  },
+  {
+    "id": "unloved",
+    "wound": "I am unloved",
+    "opposite": "I am loved",
+    "aiPhrasing": "times you have been loved",
+    "gentlePrompts": [
+      "Think of someone whose face changes when they see you.",
+      "Think of love that's expressed without words — through showing up, remembering, asking how you are."
+    ]
+  },
+  {
+    "id": "bad",
+    "wound": "I am bad",
+    "opposite": "I am good",
+    "aiPhrasing": "times you have been good",
+    "gentlePrompts": [
+      "Think of a moment when you did the right thing even though no one was watching.",
+      "Think of someone who would describe you as good — and what they would point to."
+    ]
+  },
+  {
+    "id": "weak",
+    "wound": "I am weak",
+    "opposite": "I am strong",
+    "aiPhrasing": "times you have been strong",
+    "gentlePrompts": [
+      "Think of a hard thing you got through that you didn't think you could.",
+      "Think of a moment when you stayed standing when something tried to knock you down."
+    ]
+  },
+  {
+    "id": "unsafe",
+    "wound": "I am unsafe",
+    "opposite": "I am safe",
+    "aiPhrasing": "times you have been safe",
+    "gentlePrompts": [
+      "Think of a place where your shoulders drop the moment you walk in.",
+      "Think of a person whose presence settles your body."
+    ]
+  },
+  {
+    "id": "stupid",
+    "wound": "I am stupid",
+    "opposite": "I am intelligent",
+    "aiPhrasing": "times your mind has worked well",
+    "gentlePrompts": [
+      "Think of a problem you figured out that others couldn't.",
+      "Think of a moment when someone said 'that's a good point' and meant it."
+    ]
+  },
+  {
+    "id": "foolish",
+    "wound": "I am foolish",
+    "opposite": "I am wise",
+    "aiPhrasing": "times you have been wise",
+    "gentlePrompts": [
+      "Think of a time you trusted your gut and were right.",
+      "Think of advice you gave someone that helped them."
+    ]
+  },
+  {
+    "id": "unworthy",
+    "wound": "I am unworthy",
+    "opposite": "I am worthy",
+    "aiPhrasing": "times you have been worthy of what you received",
+    "gentlePrompts": [
+      "Think of something you have that you earned through real effort.",
+      "Think of someone who gave you their attention or care without conditions."
+    ]
+  },
+  {
+    "id": "helpless",
+    "wound": "I am helpless",
+    "opposite": "I am capable",
+    "aiPhrasing": "times you have been capable",
+    "gentlePrompts": [
+      "Think of something you handled on your own that surprised you.",
+      "Think of a moment when you made a choice that changed an outcome."
+    ]
+  },
+  {
+    "id": "unseen",
+    "wound": "I am unseen",
+    "opposite": "I am seen",
+    "aiPhrasing": "times you have been seen",
+    "gentlePrompts": [
+      "Think of someone who paused and noticed you recently.",
+      "Think of when someone remembered something small you'd said weeks ago."
+    ]
+  },
+  {
+    "id": "unheard",
+    "wound": "I am unheard",
+    "opposite": "I am heard",
+    "aiPhrasing": "times you have been heard",
+    "gentlePrompts": [
+      "Think of a conversation where you said something real and the other person actually took it in.",
+      "Think of when someone changed their mind because of what you said."
+    ]
+  },
+  {
+    "id": "unimportant",
+    "wound": "I am unimportant",
+    "opposite": "I matter",
+    "aiPhrasing": "times you have mattered",
+    "gentlePrompts": [
+      "Think of someone whose day is different because you're in it.",
+      "Think of a place where your absence would be noticed."
+    ]
+  },
+  {
+    "id": "defective",
+    "wound": "I am defective",
+    "opposite": "I am whole",
+    "aiPhrasing": "times you have been whole exactly as you are",
+    "gentlePrompts": [
+      "Think of someone who knows your imperfections and stays close anyway.",
+      "Think of a moment when you felt complete — nothing missing."
+    ]
+  },
+  {
+    "id": "dont_belong",
+    "wound": "I don't belong",
+    "opposite": "I belong",
+    "aiPhrasing": "times you have belonged",
+    "gentlePrompts": [
+      "Think of a place or group where your presence is just expected — no proving required.",
+      "Think of a moment you walked in and felt like you fit."
+    ]
+  },
+  {
+    "id": "disliked",
+    "wound": "I am disliked",
+    "opposite": "I am liked",
+    "aiPhrasing": "times people have liked you",
+    "gentlePrompts": [
+      "Think of someone whose face lights up when they see you.",
+      "Think of someone who reaches out to you without being prompted."
+    ]
+  },
+  {
+    "id": "misunderstood",
+    "wound": "I am misunderstood",
+    "opposite": "I am understood",
+    "aiPhrasing": "times you have been understood",
+    "gentlePrompts": [
+      "Think of someone who finishes your thought correctly.",
+      "Think of a moment when someone said 'I get it' and they actually did."
+    ]
+  },
+  {
+    "id": "disconnected",
+    "wound": "I am disconnected",
+    "opposite": "I am connected",
+    "aiPhrasing": "times you have felt connected",
+    "gentlePrompts": [
+      "Think of a conversation that left you feeling more yourself, not less.",
+      "Think of a moment of eye contact that landed."
+    ]
+  },
+  {
+    "id": "excluded",
+    "wound": "I am excluded",
+    "opposite": "I am included",
+    "aiPhrasing": "times you have been included",
+    "gentlePrompts": [
+      "Think of an invitation that came without you having to ask.",
+      "Think of a group that made room when you arrived."
+    ]
+  },
+  {
+    "id": "disrespected",
+    "wound": "I am disrespected",
+    "opposite": "I am respected",
+    "aiPhrasing": "times you have been respected",
+    "gentlePrompts": [
+      "Think of someone who deferred to your judgment on something that mattered.",
+      "Think of a moment when someone took your work or your word seriously."
+    ]
+  },
+  {
+    "id": "rejected",
+    "wound": "I am rejected",
+    "opposite": "I am chosen",
+    "aiPhrasing": "times you have been chosen",
+    "gentlePrompts": [
+      "Think of someone who picked you when they had other options.",
+      "Think of a yes you received that you weren't sure was coming."
+    ]
+  },
+  {
+    "id": "trapped",
+    "wound": "I am trapped",
+    "opposite": "I am free",
+    "aiPhrasing": "times you have been free",
+    "gentlePrompts": [
+      "Think of a recent choice you made — even a small one — that was fully yours.",
+      "Think of a moment when you walked away from something that wasn't serving you."
+    ]
+  },
+  {
+    "id": "stuck",
+    "wound": "I am stuck",
+    "opposite": "I am moving",
+    "aiPhrasing": "times you have been moving forward",
+    "gentlePrompts": [
+      "Think of something in your life that's different than it was a year ago.",
+      "Think of a small step you took recently that took real effort."
+    ]
+  },
+  {
+    "id": "powerless",
+    "wound": "I am powerless",
+    "opposite": "I am powerful",
+    "aiPhrasing": "times you have had power",
+    "gentlePrompts": [
+      "Think of a time you said no and held the line.",
+      "Think of a situation you shaped because of what you did."
+    ]
+  },
+  {
+    "id": "no_control",
+    "wound": "I have no control",
+    "opposite": "I have agency",
+    "aiPhrasing": "times you have had agency",
+    "gentlePrompts": [
+      "Think of a moment you chose your response, even when you couldn't choose what happened.",
+      "Think of a recent decision that was fully yours to make."
+    ]
+  },
+  {
+    "id": "betrayed",
+    "wound": "I am betrayed",
+    "opposite": "I am held in trust",
+    "aiPhrasing": "times you have been held in trust",
+    "gentlePrompts": [
+      "Think of someone who kept their word to you when no one was watching.",
+      "Think of someone who chose your interest over their own convenience."
+    ]
+  }
+]
