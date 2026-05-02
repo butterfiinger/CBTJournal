@@ -1,0 +1,30 @@
+{
+  "defaultWoundChips": [
+    "I am not enough",
+    "I am unseen",
+    "I am rejected",
+    "I am alone",
+    "I am unimportant"
+  ],
+  "defaultEmotionChips": [
+    "hurt",
+    "anxious",
+    "disappointed",
+    "frustrated",
+    "sad"
+  ],
+  "defaultWoundOppositeChips": [
+    "I am seen",
+    "I am loved",
+    "I am enough",
+    "I belong",
+    "I am chosen"
+  ],
+  "defaultNeedChips": [
+    "to be understood",
+    "validation",
+    "to matter",
+    "safety",
+    "love"
+  ]
+}
