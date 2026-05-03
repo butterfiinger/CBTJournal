@@ -46,7 +46,7 @@ export default function Bank() {
   return (
     <div className="app-content fade-in">
       <div className="page-header">
-        <h1 className="page-title">Bank</h1>
+        <h1 className="page-title">Journal</h1>
       </div>
 
       <div style={{ display: 'flex', gap: '6px', marginTop: 'var(--space-4)', marginBottom: 'var(--space-3)' }}>
