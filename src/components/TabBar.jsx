@@ -58,7 +58,7 @@ export default function TabBar() {
         onClick={() => navigate('/bank')}
       >
         <BankIcon />
-        <span>Bank</span>
+        <span>Journal</span>
       </button>
     </nav>
   );
