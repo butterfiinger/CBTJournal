@@ -1,0 +1,496 @@
+[
+  {
+    "id": "abandoned",
+    "emotion": "Abandoned",
+    "opposites": [
+      "Adopted",
+      "Cherished",
+      "Defended"
+    ]
+  },
+  {
+    "id": "afraid",
+    "emotion": "Afraid",
+    "opposites": [
+      "Brave",
+      "Calm",
+      "Composed",
+      "Fearless"
+    ]
+  },
+  {
+    "id": "alone",
+    "emotion": "Alone",
+    "opposites": [
+      "Together",
+      "Accompanied"
+    ]
+  },
+  {
+    "id": "annoyed",
+    "emotion": "Annoyed",
+    "opposites": [
+      "Gratified",
+      "Pleased"
+    ]
+  },
+  {
+    "id": "anxious",
+    "emotion": "Anxious",
+    "opposites": [
+      "Brave",
+      "Calm",
+      "Collected"
+    ]
+  },
+  {
+    "id": "ashamed",
+    "emotion": "Ashamed",
+    "opposites": [
+      "Calm",
+      "Confident",
+      "Happy",
+      "Joyful"
+    ]
+  },
+  {
+    "id": "betrayed",
+    "emotion": "Betrayed",
+    "opposites": [
+      "Assisted",
+      "Helped",
+      "Loyal",
+      "Faithful"
+    ]
+  },
+  {
+    "id": "blamed",
+    "emotion": "Blamed",
+    "opposites": [
+      "Approved",
+      "Praised"
+    ]
+  },
+  {
+    "id": "bored",
+    "emotion": "Bored",
+    "opposites": [
+      "Energized",
+      "Refreshed"
+    ]
+  },
+  {
+    "id": "burdened",
+    "emotion": "Burdened",
+    "opposites": [
+      "Unloaded",
+      "Light"
+    ]
+  },
+  {
+    "id": "cheated",
+    "emotion": "Cheated",
+    "opposites": [
+      "Faithful",
+      "Fair"
+    ]
+  },
+  {
+    "id": "concerned",
+    "emotion": "Concerned",
+    "opposites": [
+      "Calm",
+      "Collected",
+      "Composed"
+    ]
+  },
+  {
+    "id": "confused",
+    "emotion": "Confused",
+    "opposites": [
+      "Clear",
+      "Composed",
+      "Organized"
+    ]
+  },
+  {
+    "id": "crazy",
+    "emotion": "Crazy",
+    "opposites": [
+      "Balanced",
+      "Calm",
+      "Collected",
+      "Sane"
+    ]
+  },
+  {
+    "id": "heavy",
+    "emotion": "Heavy",
+    "opposites": [
+      "Thin",
+      "Light"
+    ]
+  },
+  {
+    "id": "despairing",
+    "emotion": "Despairing",
+    "opposites": [
+      "Hopeful",
+      "Joyful"
+    ]
+  },
+  {
+    "id": "devastated",
+    "emotion": "Devastated",
+    "opposites": [
+      "Creative",
+      "Constructive",
+      "Guarded",
+      "Protected"
+    ]
+  },
+  {
+    "id": "disappointed",
+    "emotion": "Disappointed",
+    "opposites": [
+      "Calm",
+      "Cheerful",
+      "Comforted",
+      "Encouraged"
+    ]
+  },
+  {
+    "id": "disgusted",
+    "emotion": "Disgusted",
+    "opposites": [
+      "Attracted",
+      "Delighted",
+      "Pleased"
+    ]
+  },
+  {
+    "id": "doubtful",
+    "emotion": "Doubtful",
+    "opposites": [
+      "Believing",
+      "Calm",
+      "Clear",
+      "Certain",
+      "Confident"
+    ]
+  },
+  {
+    "id": "helpless",
+    "emotion": "Helpless",
+    "opposites": [
+      "Able",
+      "Capable",
+      "Fit",
+      "Powerful"
+    ]
+  },
+  {
+    "id": "embarrassed",
+    "emotion": "Embarrassed",
+    "opposites": [
+      "Composed"
+    ]
+  },
+  {
+    "id": "empty",
+    "emotion": "Empty",
+    "opposites": [
+      "Full"
+    ]
+  },
+  {
+    "id": "exhausted",
+    "emotion": "Exhausted",
+    "opposites": [
+      "Able",
+      "Active",
+      "Energized",
+      "Strong"
+    ]
+  },
+  {
+    "id": "guilty",
+    "emotion": "Guilty",
+    "opposites": [
+      "Innocent",
+      "Right",
+      "Moral",
+      "Good"
+    ]
+  },
+  {
+    "id": "impatient",
+    "emotion": "Impatient",
+    "opposites": [
+      "Easygoing",
+      "Controlled",
+      "Patient",
+      "Tolerant"
+    ]
+  },
+  {
+    "id": "inadequate",
+    "emotion": "Inadequate",
+    "opposites": [
+      "Able",
+      "Abundant",
+      "Capable",
+      "Enough"
+    ]
+  },
+  {
+    "id": "insecure",
+    "emotion": "Insecure",
+    "opposites": [
+      "At ease",
+      "Calm",
+      "Collected",
+      "Composed"
+    ]
+  },
+  {
+    "id": "horrified",
+    "emotion": "Horrified",
+    "opposites": [
+      "Brave",
+      "Calm",
+      "Fearless"
+    ]
+  },
+  {
+    "id": "hurt",
+    "emotion": "Hurt",
+    "opposites": [
+      "Happy",
+      "Pleased"
+    ]
+  },
+  {
+    "id": "lazy",
+    "emotion": "Lazy",
+    "opposites": [
+      "Active",
+      "Careful",
+      "Attentive",
+      "Energetic"
+    ]
+  },
+  {
+    "id": "lethargic",
+    "emotion": "Lethargic",
+    "opposites": [
+      "Alert",
+      "Active",
+      "Animated",
+      "Lively"
+    ]
+  },
+  {
+    "id": "lonely",
+    "emotion": "Lonely",
+    "opposites": [
+      "Populated",
+      "Close",
+      "Loved",
+      "Sociable"
+    ]
+  },
+  {
+    "id": "uncertain",
+    "emotion": "Uncertain",
+    "opposites": [
+      "Sure",
+      "Confident",
+      "Predictable"
+    ]
+  },
+  {
+    "id": "lost",
+    "emotion": "Lost",
+    "opposites": [
+      "Seen",
+      "Alive",
+      "Attentive",
+      "Aware"
+    ]
+  },
+  {
+    "id": "offended",
+    "emotion": "Offended",
+    "opposites": [
+      "Flattered",
+      "Praised",
+      "Complimented"
+    ]
+  },
+  {
+    "id": "outraged",
+    "emotion": "Outraged",
+    "opposites": [
+      "Calm",
+      "Relaxed",
+      "Happy"
+    ]
+  },
+  {
+    "id": "pressured",
+    "emotion": "Pressured",
+    "opposites": [
+      "Free",
+      "Left alone",
+      "At ease"
+    ]
+  },
+  {
+    "id": "punished",
+    "emotion": "Punished",
+    "opposites": [
+      "Cleared",
+      "Released",
+      "Exonerated"
+    ]
+  },
+  {
+    "id": "trapped",
+    "emotion": "Trapped",
+    "opposites": [
+      "Free"
+    ]
+  },
+  {
+    "id": "enraged",
+    "emotion": "Enraged",
+    "opposites": [
+      "Calm",
+      "Loving",
+      "Peaceful",
+      "Indifferent"
+    ]
+  },
+  {
+    "id": "rebellious",
+    "emotion": "Rebellious",
+    "opposites": [
+      "Happy",
+      "Obedient",
+      "Compliant"
+    ]
+  },
+  {
+    "id": "regretful",
+    "emotion": "Regretful",
+    "opposites": [
+      "Comforted",
+      "Content",
+      "Delighted",
+      "Joyful"
+    ]
+  },
+  {
+    "id": "rejected",
+    "emotion": "Rejected",
+    "opposites": [
+      "Cherished"
+    ]
+  },
+  {
+    "id": "resentful",
+    "emotion": "Resentful",
+    "opposites": [
+      "Delighted",
+      "Happy",
+      "Connected",
+      "Free"
+    ]
+  },
+  {
+    "id": "sad",
+    "emotion": "Sad",
+    "opposites": [
+      "Cheerful",
+      "Happy",
+      "Joyful"
+    ]
+  },
+  {
+    "id": "scared",
+    "emotion": "Scared",
+    "opposites": [
+      "Bold",
+      "Brave",
+      "Cool",
+      "Courageous"
+    ]
+  },
+  {
+    "id": "self_conscious",
+    "emotion": "Self-conscious",
+    "opposites": [
+      "Calm",
+      "Comfortable",
+      "Confident",
+      "Easy"
+    ]
+  },
+  {
+    "id": "shameful",
+    "emotion": "Shameful",
+    "opposites": [
+      "Proud",
+      "Approved",
+      "Esteemed",
+      "Honored",
+      "Respected"
+    ]
+  },
+  {
+    "id": "silly",
+    "emotion": "Silly",
+    "opposites": [
+      "Intelligent",
+      "Mature"
+    ]
+  },
+  {
+    "id": "suffering",
+    "emotion": "Suffering",
+    "opposites": [
+      "At ease",
+      "Calm",
+      "Relieved",
+      "Joyful"
+    ]
+  },
+  {
+    "id": "worried",
+    "emotion": "Worried",
+    "opposites": [
+      "Calm",
+      "Comforted",
+      "Happy",
+      "Relaxed"
+    ]
+  },
+  {
+    "id": "wary",
+    "emotion": "Wary",
+    "opposites": [
+      "Certain",
+      "Careful"
+    ]
+  },
+  {
+    "id": "frustrated",
+    "emotion": "Frustrated",
+    "opposites": [
+      "Calm",
+      "Satisfied",
+      "Free"
+    ]
+  }
+]
