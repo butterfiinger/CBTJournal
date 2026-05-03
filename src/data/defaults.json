@@ -1,0 +1,69 @@
+{
+  "defaultWoundChips": [
+    "I am not enough",
+    "I am unseen",
+    "I am rejected",
+    "I am alone",
+    "I am unimportant"
+  ],
+  "defaultEmotionChips": [
+    "Hurt",
+    "Anxious",
+    "Disappointed",
+    "Frustrated",
+    "Sad"
+  ],
+  "defaultWoundOppositeChips": [
+    "I am seen",
+    "I am loved",
+    "I am enough",
+    "I belong",
+    "I am chosen"
+  ],
+  "defaultNeedChips": [
+    "to be understood",
+    "validation",
+    "to matter",
+    "safety",
+    "love"
+  ],
+  "defaultGoodMomentEmotionChips": [
+    "Cherished",
+    "Seen",
+    "Loved",
+    "Calm",
+    "Joyful"
+  ],
+  "positiveEmotions": [
+    "Calm",
+    "Happy",
+    "Joyful",
+    "Cherished",
+    "Loved",
+    "Seen",
+    "Heard",
+    "Respected",
+    "Understood",
+    "Connected",
+    "Included",
+    "Supported",
+    "Safe",
+    "Comforted",
+    "Content",
+    "Peaceful",
+    "Relaxed",
+    "At ease",
+    "Free",
+    "Confident",
+    "Capable",
+    "Strong",
+    "Energized",
+    "Alive",
+    "Hopeful",
+    "Delighted",
+    "Pleased",
+    "Grateful",
+    "Proud",
+    "Held"
+  ]
+}
