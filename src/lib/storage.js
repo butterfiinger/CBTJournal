@@ -68,20 +68,42 @@ export const getGoodMoments = () => {
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 };
 
-// Export all data as JSON (for backup)
+// Export all data as JSON (for backup) — wrapped in a versioned envelope
 export const exportAllData = () => {
-  return JSON.stringify(getAllEntries(), null, 2);
+  const envelope = {
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    appName: 'emotional-processing-tool',
+    entries: getAllEntries(),
+  };
+  return JSON.stringify(envelope, null, 2);
 };
 
-// Import data from JSON (for restore)
+// Import data from JSON (replace mode) — returns { success, count, error }
 export const importData = (jsonString) => {
   try {
     const data = JSON.parse(jsonString);
-    if (!Array.isArray(data)) throw new Error('Invalid data format');
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    return true;
+
+    // Support both versioned envelope (new) and bare array (legacy)
+    let entries;
+    if (data && Array.isArray(data.entries)) {
+      entries = data.entries;
+    } else if (Array.isArray(data)) {
+      entries = data;
+    } else {
+      return { success: false, count: 0, error: 'File does not look like a valid export.' };
+    }
+
+    // Validate each entry has at least an id and createdAt
+    const valid = entries.every((e) => e && typeof e.id === 'string' && typeof e.createdAt === 'string');
+    if (!valid) {
+      return { success: false, count: 0, error: 'Some entries are missing required fields.' };
+    }
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+    return { success: true, count: entries.length, error: null };
   } catch (e) {
     console.error('Failed to import:', e);
-    return false;
+    return { success: false, count: 0, error: 'Could not read this file as JSON.' };
   }
 };

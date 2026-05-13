@@ -8,6 +8,7 @@ import ProcessQueue from './pages/ProcessQueue';
 import ProcessChat from './pages/ProcessChat';
 import Patterns from './pages/Patterns';
 import Onboarding from './pages/Onboarding';
+import Settings from './pages/Settings';
 import HomeScreenPrompt from './components/HomeScreenPrompt';
 import TabBar from './components/TabBar';
 
@@ -72,13 +73,14 @@ function App() {
   return (
     <div className="app-shell">
       <Routes>
-        <Route path="/" element={<Home onReplayOnboarding={() => setShowOnboarding(true)} />} />
+        <Route path="/" element={<Home />} />
         <Route path="/capture" element={<Capture />} />
         <Route path="/process" element={<ProcessQueue />} />
         <Route path="/process/:entryId" element={<ProcessChat />} />
         <Route path="/log-good-moment" element={<LogGoodMoment />} />
         <Route path="/bank" element={<Bank />} />
         <Route path="/patterns" element={<Patterns />} />
+        <Route path="/settings" element={<Settings onReplayOnboarding={() => setShowOnboarding(true)} />} />
       </Routes>
       <TabBar />
       {showHomeScreenPrompt && <HomeScreenPrompt onDismiss={dismissHomeScreenPrompt} />}
