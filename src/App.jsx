@@ -9,6 +9,8 @@ import ProcessChat from './pages/ProcessChat';
 import Patterns from './pages/Patterns';
 import Onboarding from './pages/Onboarding';
 import Settings from './pages/Settings';
+import Reprogramming from './pages/Reprogramming';
+import ReprogramSession from './pages/ReprogramSession';
 import HomeScreenPrompt from './components/HomeScreenPrompt';
 import TabBar from './components/TabBar';
 
@@ -80,6 +82,8 @@ function App() {
         <Route path="/log-good-moment" element={<LogGoodMoment />} />
         <Route path="/bank" element={<Bank />} />
         <Route path="/patterns" element={<Patterns />} />
+        <Route path="/reprogram" element={<Reprogramming />} />
+        <Route path="/reprogram/:woundId" element={<ReprogramSession />} />
         <Route path="/settings" element={<Settings onReplayOnboarding={() => setShowOnboarding(true)} />} />
       </Routes>
       <TabBar />

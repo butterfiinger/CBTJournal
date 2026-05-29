@@ -1,18 +1,21 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getOpenCaptures, getAllEntries } from '../lib/storage';
+import { getCurrentStreak, hasSessionToday } from '../lib/streaks';
 
 export default function Home() {
   const navigate = useNavigate();
   const [openCount, setOpenCount] = useState(0);
   const [topWound, setTopWound] = useState(null);
+  const [currentStreak, setCurrentStreak] = useState(0);
+  const [doneToday, setDoneToday] = useState(false);
 
   useEffect(() => {
     const open = getOpenCaptures();
     setOpenCount(open.length);
 
     // Calculate top wound from all entries (excluding good moments)
-    const allEntries = getAllEntries().filter((e) => e.status !== 'good_moment');
+    const allEntries = getAllEntries().filter((e) => e.status !== 'good_moment' && e.status !== 'reprogramming');
     const woundCounts = {};
     allEntries.forEach((entry) => {
       (entry.wounds || []).forEach((w) => {
@@ -24,6 +27,9 @@ export default function Home() {
     if (sorted.length > 0) {
       setTopWound(sorted[0][0]);
     }
+
+    setCurrentStreak(getCurrentStreak());
+    setDoneToday(hasSessionToday());
   }, []);
 
   const greeting = () => {
@@ -32,6 +38,13 @@ export default function Home() {
     if (hour < 12) return `${day} morning`;
     if (hour < 17) return `${day} afternoon`;
     return `${day} evening`;
+  };
+
+  // Reprogramming subtitle copy varies by state
+  const reprogrammingSubtitle = () => {
+    if (doneToday) return `Today's session complete · Day ${currentStreak}`;
+    if (currentStreak > 0) return `Day ${currentStreak} of 21`;
+    return 'Rewire a belief through daily practice';
   };
 
   return (
@@ -75,6 +88,24 @@ export default function Home() {
           </div>
           <p style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>
             Something just happened. Save it for later.
+          </p>
+        </button>
+
+        <button
+          className="card"
+          onClick={() => navigate('/reprogram')}
+          style={{
+            textAlign: 'left',
+            padding: 'var(--space-5)',
+            border: '0.5px solid rgba(120, 145, 175, 0.3)',
+          }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+            <span style={{ fontWeight: 500, fontSize: '17px' }}>Reprogram a belief</span>
+            <span style={{ color: 'var(--text-tertiary)' }}>→</span>
+          </div>
+          <p style={{ fontSize: '14px', color: currentStreak > 0 ? 'rgb(80, 105, 140)' : 'var(--text-secondary)' }}>
+            {reprogrammingSubtitle()}
           </p>
         </button>
 

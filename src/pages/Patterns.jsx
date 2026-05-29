@@ -1,5 +1,12 @@
 import { useState, useEffect, useMemo } from 'react';
 import { getAllEntries } from '../lib/storage';
+import {
+  getCurrentStreak,
+  getLongestStreak,
+  getTotalSessions,
+  getReprogrammingBankCount,
+  getMostReprogrammed,
+} from '../lib/streaks';
 
 const WINDOWS = [
   { id: '30', label: '30 days', days: 30 },
@@ -10,12 +17,24 @@ const WINDOWS = [
 const DAYS_OF_WEEK = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
+const STREAK_GOAL = 21;
+
 export default function Patterns() {
   const [windowId, setWindowId] = useState('30');
   const [allEntries, setAllEntries] = useState([]);
+  const [currentStreak, setCurrentStreak] = useState(0);
+  const [longestStreak, setLongestStreak] = useState(0);
+  const [totalSessions, setTotalSessions] = useState(0);
+  const [bankCount, setBankCount] = useState(0);
+  const [mostReprogrammed, setMostReprogrammed] = useState([]);
 
   useEffect(() => {
     setAllEntries(getAllEntries());
+    setCurrentStreak(getCurrentStreak());
+    setLongestStreak(getLongestStreak());
+    setTotalSessions(getTotalSessions());
+    setBankCount(getReprogrammingBankCount());
+    setMostReprogrammed(getMostReprogrammed(5));
   }, []);
 
   const window = WINDOWS.find((w) => w.id === windowId);
@@ -28,8 +47,10 @@ export default function Patterns() {
     return allEntries.filter((e) => new Date(e.createdAt) >= cutoff);
   }, [allEntries, window]);
 
-  // Split into triggers vs good moments
-  const triggers = filteredEntries.filter((e) => e.status !== 'good_moment');
+  // Split into triggers vs good moments (exclude reprogramming sessions from trigger counts)
+  const triggers = filteredEntries.filter(
+    (e) => e.status !== 'good_moment' && e.status !== 'reprogramming'
+  );
   const goodMoments = filteredEntries.filter((e) => e.status === 'good_moment');
 
   // Aggregate wound counts
@@ -65,8 +86,18 @@ export default function Patterns() {
     ? `${DAY_NAMES[peakDayIndex]}s show up most.`
     : null;
 
+  // Streak card encouragement copy
+  const streakEncouragement = () => {
+    if (currentStreak === 0 && totalSessions === 0) return 'Start a daily reprogramming practice from Home.';
+    if (currentStreak === 0) return "You've practiced before. The pattern will rebuild when you do.";
+    if (currentStreak < 7) return "You've been showing up. The pattern is forming.";
+    if (currentStreak < 14) return "One week in. The new wiring is taking hold.";
+    if (currentStreak < STREAK_GOAL) return "Past two weeks. You're nearly through the first cycle.";
+    return `You've completed ${Math.floor(currentStreak / STREAK_GOAL)} full ${STREAK_GOAL}-day cycle${Math.floor(currentStreak / STREAK_GOAL) > 1 ? 's' : ''}. The pattern is established.`;
+  };
+
   // Empty state
-  if (allEntries.length === 0 || filteredEntries.length === 0) {
+  if (allEntries.length === 0 || (filteredEntries.length === 0 && totalSessions === 0)) {
     return (
       <div className="app-content fade-in">
         <div className="page-header">
@@ -106,8 +137,97 @@ export default function Patterns() {
         <h1 className="page-title">Patterns</h1>
       </div>
 
+      {/* Reprogramming streak card — always at the top when there's a practice or history */}
+      {(currentStreak > 0 || totalSessions > 0) && (
+        <div
+          style={{
+            background: 'rgba(120, 145, 175, 0.08)',
+            border: '0.5px solid rgba(120, 145, 175, 0.18)',
+            borderRadius: '14px',
+            padding: 'var(--space-4)',
+            marginTop: 'var(--space-4)',
+            marginBottom: 'var(--space-4)',
+          }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '10px' }}>
+            <span style={{
+              fontSize: '12px',
+              color: 'rgb(80, 105, 140)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.06em',
+              fontWeight: 500,
+            }}>
+              Reprogramming streak
+            </span>
+            {longestStreak > 0 && (
+              <span style={{ fontSize: '11px', color: 'var(--text-tertiary)' }}>
+                longest: {longestStreak} {longestStreak === 1 ? 'day' : 'days'}
+              </span>
+            )}
+          </div>
+          <p style={{
+            fontSize: '28px',
+            color: 'var(--text-primary)',
+            margin: '0 0 4px',
+            fontWeight: 500,
+            fontFamily: 'var(--font-serif)',
+          }}>
+            Day {currentStreak} <span style={{ fontSize: '15px', color: 'var(--text-tertiary)', fontWeight: 400 }}>of 21</span>
+          </p>
+          <p style={{ fontSize: '13px', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.5 }}>
+            {streakEncouragement()}
+          </p>
+        </div>
+      )}
+
+      {/* Reprogramming stats — sessions + bank count */}
+      {totalSessions > 0 && (
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: 'var(--space-5)' }}>
+          <div style={{ background: 'var(--bg-card)', borderRadius: '10px', padding: 'var(--space-3) var(--space-4)', border: '0.5px solid var(--border-subtle)' }}>
+            <p style={{ fontSize: '11px', color: 'var(--text-tertiary)', margin: '0 0 4px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Sessions</p>
+            <p style={{ fontSize: '22px', color: 'var(--text-primary)', margin: 0, fontWeight: 500 }}>{totalSessions}</p>
+          </div>
+          <div style={{ background: 'var(--bg-card)', borderRadius: '10px', padding: 'var(--space-3) var(--space-4)', border: '0.5px solid var(--border-subtle)' }}>
+            <p style={{ fontSize: '11px', color: 'var(--text-tertiary)', margin: '0 0 4px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Proofs banked</p>
+            <p style={{ fontSize: '22px', color: 'var(--text-primary)', margin: 0, fontWeight: 500 }}>{bankCount}</p>
+          </div>
+        </div>
+      )}
+
+      {/* Most reprogrammed wounds */}
+      {mostReprogrammed.length > 0 && (
+        <div style={{ marginBottom: 'var(--space-6)' }}>
+          <p className="field-label" style={{ marginBottom: 'var(--space-3)' }}>Most reprogrammed</p>
+          <div style={{ background: 'var(--bg-card)', borderRadius: '10px', padding: 'var(--space-3) var(--space-4)', border: '0.5px solid var(--border-subtle)' }}>
+            {mostReprogrammed.map(([wound, count], idx) => (
+              <div
+                key={wound}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  paddingTop: idx === 0 ? 0 : 'var(--space-2)',
+                  paddingBottom: idx === mostReprogrammed.length - 1 ? 0 : 'var(--space-2)',
+                  borderBottom: idx === mostReprogrammed.length - 1 ? 'none' : '0.5px solid var(--border-subtle)',
+                }}
+              >
+                <span style={{ fontSize: '14px', color: 'var(--text-primary)' }}>{wound}</span>
+                <span style={{ fontSize: '12px', color: 'var(--text-tertiary)' }}>
+                  {count} session{count === 1 ? '' : 's'}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Divider before triggers section if reprogramming surface above */}
+      {(currentStreak > 0 || totalSessions > 0) && triggers.length > 0 && (
+        <div style={{ height: '0.5px', background: 'var(--border-subtle)', margin: 'var(--space-5) 0 var(--space-5)' }} />
+      )}
+
       {/* Time window toggle */}
-      <div style={{ display: 'flex', gap: '6px', marginTop: 'var(--space-4)', marginBottom: 'var(--space-4)' }}>
+      <div style={{ display: 'flex', gap: '6px', marginTop: 'var(--space-2)', marginBottom: 'var(--space-4)' }}>
         {WINDOWS.map((w) => (
           <button
             key={w.id}

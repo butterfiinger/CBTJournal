@@ -12,17 +12,17 @@
   {
     "id": "abandoned",
     "wound": "I am abandoned",
-    "opposite": "I am chosen",
-    "aiPhrasing": "times someone has stayed",
+    "opposite": "I am cherished",
+    "aiPhrasing": "times you have been cherished",
     "gentlePrompts": [
-      "Think of someone who chose to be with you when they didn't have to.",
+      "Think of someone whose face changes when they see you.",
       "Think of someone who came back, even after a hard moment."
     ]
   },
   {
     "id": "alone",
     "wound": "I am alone",
-    "opposite": "I am accompanied",
+    "opposite": "I am connected",
     "aiPhrasing": "times you have not been alone",
     "gentlePrompts": [
       "Think of who you'd actually call if something genuinely went wrong tonight.",
@@ -42,11 +42,11 @@
   {
     "id": "bad",
     "wound": "I am bad",
-    "opposite": "I am good",
-    "aiPhrasing": "times you have been good",
+    "opposite": "I am innocent",
+    "aiPhrasing": "times you have been innocent",
     "gentlePrompts": [
-      "Think of a moment when you did the right thing even though no one was watching.",
-      "Think of someone who would describe you as good — and what they would point to."
+      "Think of a mistake you made recently — what was happening in your life at the time? What programs were running? You were doing your best with what you had.",
+      "Think of how you'd describe someone else doing the exact thing you did. Would you call them bad — or human?"
     ]
   },
   {
@@ -102,8 +102,8 @@
   {
     "id": "helpless",
     "wound": "I am helpless",
-    "opposite": "I am capable",
-    "aiPhrasing": "times you have been capable",
+    "opposite": "I am empowered",
+    "aiPhrasing": "times you have been empowered",
     "gentlePrompts": [
       "Think of something you handled on your own that surprised you.",
       "Think of a moment when you made a choice that changed an outcome."
@@ -212,10 +212,10 @@
   {
     "id": "rejected",
     "wound": "I am rejected",
-    "opposite": "I am chosen",
-    "aiPhrasing": "times you have been chosen",
+    "opposite": "I am accepted",
+    "aiPhrasing": "times you have been accepted",
     "gentlePrompts": [
-      "Think of someone who picked you when they had other options.",
+      "Think of someone who knows your full self and stays anyway.",
       "Think of a yes you received that you weren't sure was coming."
     ]
   },
