@@ -22,7 +22,7 @@ export default function ReprogramChat() {
   const woundData = wounds.find((w) => w.id === woundId);
   const knowledge = WOUND_KNOWLEDGE[woundId];
 
-  const [currentStage, setCurrentStage] = useState(0); // 0 = opening, 1-4 = stages
+  const [currentStage, setCurrentStage] = useState(0);
   const [messages, setMessages] = useState([]);
   const [apiHistory, setApiHistory] = useState([]);
   const [inputText, setInputText] = useState('');
@@ -31,14 +31,12 @@ export default function ReprogramChat() {
   const [isComplete, setIsComplete] = useState(false);
   const [hasInitialized, setHasInitialized] = useState(false);
 
-  // Redirect if wound not found
   useEffect(() => {
     if (!woundData || !knowledge) {
       navigate('/reprogram');
     }
   }, [woundData, knowledge, navigate]);
 
-  // Initialize session — restore saved or start fresh
   useEffect(() => {
     if (hasInitialized || !woundData || !knowledge) return;
     setHasInitialized(true);
@@ -57,11 +55,9 @@ export default function ReprogramChat() {
       }
     }
 
-    // Fresh session — get opening message from AI
     requestAIResponse([], 0);
   }, [hasInitialized, woundData, knowledge, woundId]);
 
-  // Persist session state
   useEffect(() => {
     if (!hasInitialized || messages.length === 0) return;
     localStorage.setItem(
@@ -81,10 +77,7 @@ export default function ReprogramChat() {
 
     try {
       const systemPrompt = buildReprogramSystemPrompt(woundData, knowledge);
-      const contextData = {
-        systemPrompt,
-        currentStage: stage,
-      };
+      const contextData = { systemPrompt, currentStage: stage };
 
       const aiResponse = await callAI(history, contextData);
 
@@ -97,7 +90,6 @@ export default function ReprogramChat() {
 
       if (aiResponse.isComplete) {
         setIsComplete(true);
-        // Clear saved session on completion
         localStorage.removeItem(STORAGE_KEY_PREFIX + woundId);
       }
     } catch (err) {
@@ -121,10 +113,6 @@ export default function ReprogramChat() {
     requestAIResponse(newHistory, currentStage);
   };
 
-  const handleExit = () => {
-    navigate('/reprogram');
-  };
-
   const handleStartOver = () => {
     localStorage.removeItem(STORAGE_KEY_PREFIX + woundId);
     setMessages([]);
@@ -141,7 +129,7 @@ export default function ReprogramChat() {
   return (
     <div className="fade-in" style={{ display: 'flex', flexDirection: 'column', height: '100dvh', overflow: 'hidden' }}>
       <div className="top-bar" style={{ flexShrink: 0 }}>
-        <button className="top-bar-action" onClick={handleExit}>←</button>
+        <button className="top-bar-action" onClick={() => navigate('/reprogram')}>←</button>
         <div style={{ textAlign: 'center' }}>
           <p className="top-bar-title" style={{ fontSize: '14px' }}>{woundData.wound}</p>
           <p style={{ fontSize: '10px', color: 'var(--text-tertiary)', marginTop: '2px' }}>
@@ -227,7 +215,6 @@ export default function ReprogramChat() {
                 fontSize: '14px',
                 color: 'var(--text-secondary)',
                 textDecoration: 'underline',
-                marginBottom: 'var(--space-3)',
                 display: 'block',
                 margin: '0 auto var(--space-3)',
               }}
