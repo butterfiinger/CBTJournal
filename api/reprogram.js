@@ -92,8 +92,18 @@ WHEN ALL 7 AREAS DONE (or user signals close):
 - Invite them to sit with the cumulative felt-sense
 - Mark session complete
 
-JSON RESPONSE FORMAT:
-You MUST respond with valid JSON only — no preamble, no markdown fences, no extra text.
+JSON RESPONSE FORMAT (CRITICAL):
+You MUST respond with raw JSON only. Your entire response must start with { and end with }.
+
+DO NOT wrap the JSON in markdown code fences. DO NOT use \`\`\`json or \`\`\` anywhere in your response. DO NOT include any text, explanation, or preamble before or after the JSON object.
+
+CORRECT response (starts with { and ends with }):
+{"message": "Today we're working with...", "currentArea": null, "recordedExample": null, "isComplete": false, "finalStatements": null}
+
+INCORRECT response (do NOT do this):
+\`\`\`json
+{"message": "..."}
+\`\`\`
 
 Shape:
 {

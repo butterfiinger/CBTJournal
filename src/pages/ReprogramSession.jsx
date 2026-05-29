@@ -18,13 +18,26 @@ async function callReprogrammingAI(history, wound, opposite) {
     throw new Error('AI call failed');
   }
   const data = await response.json();
+
+  // Strip markdown code fences that the model sometimes wraps JSON in,
+  // even when instructed not to. Match ```json ... ``` or ``` ... ```
+  let cleaned = (data.message || '').trim();
+  if (cleaned.startsWith('```')) {
+    // Remove opening fence (```json or ```)
+    cleaned = cleaned.replace(/^```(?:json)?\s*\n?/, '');
+    // Remove closing fence
+    cleaned = cleaned.replace(/\n?```\s*$/, '');
+    cleaned = cleaned.trim();
+  }
+
   // Parse the JSON response
   try {
-    return JSON.parse(data.message);
+    return JSON.parse(cleaned);
   } catch (e) {
-    // If parse fails, treat the raw text as a message
+    console.error('Failed to parse AI response as JSON. Raw:', cleaned);
+    // If parse fails, treat the raw text as a message (fallback)
     return {
-      message: data.message,
+      message: cleaned || data.message,
       currentArea: null,
       recordedExample: null,
       isComplete: false,
