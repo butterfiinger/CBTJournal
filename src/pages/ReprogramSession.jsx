@@ -2,9 +2,10 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import wounds from '../data/wounds.json';
 import { saveEntry } from '../lib/storage';
+import { getSessionCountByWound } from '../lib/streaks';
 
 // Calls the dedicated /api/reprogram endpoint
-async function callReprogrammingAI(history, wound, opposite) {
+async function callReprogrammingAI({ history, wound, opposite, teaching, sessionNumber, requestType }) {
   const response = await fetch('/api/reprogram', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -12,6 +13,9 @@ async function callReprogrammingAI(history, wound, opposite) {
       messages: history,
       wound,
       opposite,
+      teaching,
+      sessionNumber,
+      requestType: requestType || 'session',
     }),
   });
   if (!response.ok) {
@@ -23,9 +27,7 @@ async function callReprogrammingAI(history, wound, opposite) {
   // even when instructed not to. Match ```json ... ``` or ``` ... ```
   let cleaned = (data.message || '').trim();
   if (cleaned.startsWith('```')) {
-    // Remove opening fence (```json or ```)
     cleaned = cleaned.replace(/^```(?:json)?\s*\n?/, '');
-    // Remove closing fence
     cleaned = cleaned.replace(/\n?```\s*$/, '');
     cleaned = cleaned.trim();
   }
@@ -35,7 +37,7 @@ async function callReprogrammingAI(history, wound, opposite) {
     return JSON.parse(cleaned);
   } catch (e) {
     console.error('Failed to parse AI response as JSON. Raw:', cleaned);
-    // If parse fails, treat the raw text as a message (fallback)
+    // Fallback: show whatever text came back as a message
     return {
       message: cleaned || data.message,
       currentArea: null,
@@ -52,6 +54,7 @@ export default function ReprogramSession() {
   const messagesEndRef = useRef(null);
 
   const [woundData, setWoundData] = useState(null);
+  const [sessionNumber, setSessionNumber] = useState(1);
   const [messages, setMessages] = useState([]);
   const [apiHistory, setApiHistory] = useState([]);
   const [inputText, setInputText] = useState('');
@@ -62,7 +65,7 @@ export default function ReprogramSession() {
   const [isFinished, setIsFinished] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
 
-  // Find the wound data on mount
+  // Find the wound data on mount + compute session number
   useEffect(() => {
     const w = wounds.find((x) => x.id === woundId);
     if (!w) {
@@ -70,6 +73,9 @@ export default function ReprogramSession() {
       return;
     }
     setWoundData(w);
+    // Session number = previous sessions for this wound + 1
+    const counts = getSessionCountByWound();
+    setSessionNumber((counts[w.wound] || 0) + 1);
   }, [woundId, navigate]);
 
   // Start the session — send opening message to AI
@@ -79,7 +85,7 @@ export default function ReprogramSession() {
     const seedMessage = `I'm ready to start a reprogramming session for the wound "${woundData.wound}" and rewire toward "${woundData.opposite}".`;
     const initialHistory = [{ role: 'user', content: seedMessage }];
     setApiHistory(initialHistory);
-    requestAIResponse(initialHistory);
+    requestAIResponse(initialHistory, 'session');
   }, [woundData, hasStarted]);
 
   // Auto-scroll messages
@@ -87,17 +93,26 @@ export default function ReprogramSession() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isLoading]);
 
-  const requestAIResponse = async (history) => {
+  const requestAIResponse = async (history, requestType = 'session') => {
     if (!woundData) return;
     setIsLoading(true);
     setError(null);
     try {
-      const result = await callReprogrammingAI(history, woundData.wound, woundData.opposite);
+      const result = await callReprogrammingAI({
+        history,
+        wound: woundData.wound,
+        opposite: woundData.opposite,
+        teaching: woundData.teaching,
+        sessionNumber,
+        requestType,
+      });
 
       setMessages((prev) => [...prev, { role: 'ai', text: result.message }]);
       setApiHistory((prev) => [...prev, { role: 'assistant', content: JSON.stringify(result) }]);
 
-      if (result.currentArea) {
+      // Only update currentArea for actual area transitions — NOT for qa or teaching_summary
+      // This prevents Q&A questions from advancing the session
+      if (result.currentArea && result.currentArea !== 'qa' && result.currentArea !== 'teaching_summary') {
         setCurrentArea(result.currentArea);
       }
 
@@ -181,6 +196,30 @@ export default function ReprogramSession() {
     requestAIResponse(newHistory);
   };
 
+  // "Learn more about this core wound" — fires a separate teaching summary call
+  const handleLearnMore = async () => {
+    if (isLoading || !woundData) return;
+    setMessages((prev) => [...prev, { role: 'user', text: 'Tell me more about this wound' }]);
+    setIsLoading(true);
+    setError(null);
+    try {
+      const result = await callReprogrammingAI({
+        history: [{ role: 'user', content: `Please give me the full teaching about "${woundData.wound}" again.` }],
+        wound: woundData.wound,
+        opposite: woundData.opposite,
+        teaching: woundData.teaching,
+        sessionNumber,
+        requestType: 'teaching_summary',
+      });
+      setMessages((prev) => [...prev, { role: 'ai', text: result.message }]);
+    } catch (err) {
+      console.error('Teaching summary failed:', err);
+      setError('Couldn\'t load the teaching. Try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleDone = () => {
     if (isFinished) {
       navigate('/');
@@ -192,6 +231,10 @@ export default function ReprogramSession() {
   }
 
   const completedCount = Object.keys(recordedExamples).length;
+  // Show area-related chips only when we're actually in a life area (not education/qa/closing)
+  const isInAreaPhase = currentArea && ![
+    'education', 'qa', 'closing', 'teaching_summary',
+  ].includes(currentArea);
 
   return (
     <div className="fade-in" style={{ display: 'flex', flexDirection: 'column', height: '100dvh', overflow: 'hidden' }}>
@@ -274,9 +317,9 @@ export default function ReprogramSession() {
           </div>
         )}
 
-        {/* Helper chips — only show when not loading, not finished, and we're in an area */}
-        {!isLoading && !isFinished && currentArea && currentArea !== 'closing' && (
-          <div style={{ display: 'flex', gap: 'var(--space-2)', marginBottom: 'var(--space-4)', flexWrap: 'wrap' }}>
+        {/* Helper chips — only show when in an area phase, not loading, not finished */}
+        {!isLoading && !isFinished && isInAreaPhase && (
+          <div style={{ display: 'flex', gap: 'var(--space-2)', marginBottom: 'var(--space-3)', flexWrap: 'wrap' }}>
             <button
               onClick={handleSkipArea}
               className="chip"
@@ -298,6 +341,25 @@ export default function ReprogramSession() {
               }}
             >
               Need a prompt
+            </button>
+          </div>
+        )}
+
+        {/* "Learn more about this core wound" — always available once the session has started, until finished */}
+        {!isLoading && !isFinished && hasStarted && messages.length > 0 && (
+          <div style={{ display: 'flex', marginBottom: 'var(--space-4)' }}>
+            <button
+              onClick={handleLearnMore}
+              style={{
+                background: 'transparent',
+                border: '0.5px solid rgba(120, 145, 175, 0.4)',
+                color: 'rgb(80, 105, 140)',
+                fontSize: '12px',
+                padding: '6px 12px',
+                borderRadius: 'var(--radius-pill)',
+              }}
+            >
+              Learn more about this core wound
             </button>
           </div>
         )}
