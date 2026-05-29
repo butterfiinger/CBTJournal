@@ -9,7 +9,8 @@ import { SYSTEM_PROMPT } from '../data/systemPrompt';
  */
 export async function callAI(conversationMessages, contextData = {}) {
   // Build the system prompt with any contextual data appended
-  let fullSystemPrompt = SYSTEM_PROMPT;
+  // Allow callers to supply a fully custom system prompt (e.g. the reprogramming flow)
+  let fullSystemPrompt = contextData.systemPrompt || SYSTEM_PROMPT;
 
   if (contextData.currentStep) {
     fullSystemPrompt += `\n\n═══════════════════════════════════════════════\nCURRENT CONTEXT\n═══════════════════════════════════════════════\n\nThe user is currently at Step ${contextData.currentStep}.`;

@@ -9,6 +9,8 @@ import ProcessChat from './pages/ProcessChat';
 import Patterns from './pages/Patterns';
 import Onboarding from './pages/Onboarding';
 import Settings from './pages/Settings';
+import ReprogramWound from './pages/ReprogramWound';
+import ReprogramChat from './pages/ReprogramChat';
 import HomeScreenPrompt from './components/HomeScreenPrompt';
 import TabBar from './components/TabBar';
 
@@ -81,6 +83,8 @@ function App() {
         <Route path="/bank" element={<Bank />} />
         <Route path="/patterns" element={<Patterns />} />
         <Route path="/settings" element={<Settings onReplayOnboarding={() => setShowOnboarding(true)} />} />
+        <Route path="/reprogram" element={<ReprogramWound />} />
+        <Route path="/reprogram/:woundId" element={<ReprogramChat />} />
       </Routes>
       <TabBar />
       {showHomeScreenPrompt && <HomeScreenPrompt onDismiss={dismissHomeScreenPrompt} />}

@@ -42,11 +42,11 @@
   {
     "id": "bad",
     "wound": "I am bad",
-    "opposite": "I am good",
-    "aiPhrasing": "times you have been good",
+    "opposite": "I am innocent",
+    "aiPhrasing": "times you can see your own innocence",
     "gentlePrompts": [
-      "Think of a moment when you did the right thing even though no one was watching.",
-      "Think of someone who would describe you as good — and what they would point to."
+      "Think of a mistake you made recently — what was actually going on in your life at the time? What programs were running? That context is your innocence.",
+      "Think of someone who would describe you as good-hearted — what would they point to?"
     ]
   },
   {

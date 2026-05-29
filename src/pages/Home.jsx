@@ -80,6 +80,20 @@ export default function Home() {
 
         <button
           className="card"
+          onClick={() => navigate('/reprogram')}
+          style={{ textAlign: 'left', padding: 'var(--space-5)' }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+            <span style={{ fontWeight: 500, fontSize: '17px' }}>Reprogram a wound</span>
+            <span style={{ color: 'var(--text-tertiary)' }}>→</span>
+          </div>
+          <p style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>
+            Work on a core belief proactively, no trigger needed.
+          </p>
+        </button>
+
+        <button
+          className="card"
           onClick={() => navigate('/process')}
           style={{ textAlign: 'left', padding: 'var(--space-5)' }}
         >
