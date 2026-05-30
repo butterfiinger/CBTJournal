@@ -61,6 +61,7 @@ export default function ReprogramSession() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [currentArea, setCurrentArea] = useState(null);
+  const [chipsApplicable, setChipsApplicable] = useState(false);
   const [recordedExamples, setRecordedExamples] = useState({});
   const [isFinished, setIsFinished] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
@@ -116,6 +117,9 @@ export default function ReprogramSession() {
         setCurrentArea(result.currentArea);
       }
 
+      // Track whether chips should show — only true when AI just asked a fresh area prompt
+      setChipsApplicable(result.chipsApplicable === true);
+
       if (result.recordedExample) {
         setRecordedExamples((prev) => ({
           ...prev,
@@ -170,6 +174,7 @@ export default function ReprogramSession() {
 
     setMessages((prev) => [...prev, { role: 'user', text: trimmed }]);
     setInputText('');
+    setChipsApplicable(false);
     const newHistory = [...apiHistory, { role: 'user', content: trimmed }];
     setApiHistory(newHistory);
     requestAIResponse(newHistory);
@@ -178,6 +183,7 @@ export default function ReprogramSession() {
   const handleSkipArea = () => {
     if (isLoading) return;
     setMessages((prev) => [...prev, { role: 'user', text: 'Skip this area' }]);
+    setChipsApplicable(false);
     const newHistory = [...apiHistory, { role: 'user', content: 'skip' }];
     setApiHistory(newHistory);
     requestAIResponse(newHistory);
@@ -187,10 +193,11 @@ export default function ReprogramSession() {
     if (isLoading || !woundData) return;
     const prompts = woundData.gentlePrompts || [];
     const prompt = prompts[Math.floor(Math.random() * prompts.length)] || 'Take your time.';
-    setMessages((prev) => [...prev, { role: 'user', text: 'Need a prompt' }]);
+    setMessages((prev) => [...prev, { role: 'user', text: 'Need more help' }]);
+    setChipsApplicable(false);
     const newHistory = [...apiHistory, {
       role: 'user',
-      content: `I'm stuck. Can you offer a gentle prompt? Reference: "${prompt}"`,
+      content: `I'm stuck. Can you offer a gentle prompt or come at this from a different angle? Reference: "${prompt}"`,
     }];
     setApiHistory(newHistory);
     requestAIResponse(newHistory);
@@ -231,10 +238,8 @@ export default function ReprogramSession() {
   }
 
   const completedCount = Object.keys(recordedExamples).length;
-  // Show area-related chips only when we're actually in a life area (not education/qa/closing)
-  const isInAreaPhase = currentArea && ![
-    'education', 'qa', 'closing', 'teaching_summary',
-  ].includes(currentArea);
+  // Chips show only when AI explicitly signals it just asked a fresh area prompt
+  const showChips = chipsApplicable && !isLoading && !isFinished;
 
   return (
     <div className="fade-in" style={{ display: 'flex', flexDirection: 'column', height: '100dvh', overflow: 'hidden' }}>
@@ -255,7 +260,6 @@ export default function ReprogramSession() {
           padding: 'var(--space-4) var(--space-5)',
           background: 'var(--bg-secondary)',
           overflowY: 'auto',
-          paddingBottom: isFinished ? 'var(--space-8)' : '100px',
         }}
       >
         {messages.map((msg, idx) => (
@@ -317,8 +321,8 @@ export default function ReprogramSession() {
           </div>
         )}
 
-        {/* Helper chips — only show when in an area phase, not loading, not finished */}
-        {!isLoading && !isFinished && isInAreaPhase && (
+        {/* Helper chips — only show when AI just asked a fresh area prompt */}
+        {showChips && (
           <div style={{ display: 'flex', gap: 'var(--space-2)', marginBottom: 'var(--space-3)', flexWrap: 'wrap' }}>
             <button
               onClick={handleSkipArea}
@@ -340,7 +344,7 @@ export default function ReprogramSession() {
                 fontSize: '13px',
               }}
             >
-              Need a prompt
+              Need more help
             </button>
           </div>
         )}
@@ -384,12 +388,7 @@ export default function ReprogramSession() {
       {!isFinished && (
         <div
           style={{
-            position: 'fixed',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            maxWidth: '480px',
-            margin: '0 auto',
+            flexShrink: 0,
             background: 'var(--bg-primary)',
             padding: 'var(--space-3) var(--space-5) calc(var(--space-3) + env(safe-area-inset-bottom))',
             borderTop: '0.5px solid var(--border-subtle)',
