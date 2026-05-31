@@ -18,6 +18,7 @@ export default function Reprogramming() {
   const [sessionCounts, setSessionCounts] = useState({});
   const [woundLogCounts, setWoundLogCounts] = useState({});
   const [doneToday, setDoneToday] = useState(false);
+  const [expandedId, setExpandedId] = useState(null);
 
   useEffect(() => {
     setCurrentStreak(getCurrentStreak());
@@ -26,7 +27,7 @@ export default function Reprogramming() {
     setDoneToday(hasSessionToday());
 
     // Count wounds from processed/captured entries (how often they've appeared in triggers)
-    const allEntries = getAllEntries().filter((e) => e.status !== 'good_moment');
+    const allEntries = getAllEntries().filter((e) => e.status !== 'good_moment' && e.status !== 'reprogramming');
     const counts = {};
     allEntries.forEach((entry) => {
       (entry.wounds || []).forEach((w) => {
@@ -68,6 +69,10 @@ export default function Reprogramming() {
   const streakSubcopy = currentStreak === 0
     ? "that's the practice"
     : (currentStreak >= STREAK_GOAL ? 'cycle complete' : `${STREAK_GOAL} day cycle`);
+
+  const toggleExpand = (woundId) => {
+    setExpandedId((prev) => (prev === woundId ? null : woundId));
+  };
 
   return (
     <div className="fade-in subpage">
@@ -131,7 +136,7 @@ export default function Reprogramming() {
             lineHeight: 1.55,
             marginBottom: 'var(--space-5)',
           }}>
-            Pick a belief to work with today. We'll walk through 7 places it was true for you.
+            Pick a belief to work with today. Tap to see your options.
             {doneToday && ' You already did a session today — extra sessions are great, but won\'t add to your streak.'}
           </p>
 
@@ -154,7 +159,9 @@ export default function Reprogramming() {
                   wound={w}
                   logCount={woundLogCounts[w.wound] || 0}
                   sessionCount={sessionCounts[w.wound] || 0}
-                  onClick={() => navigate(`/reprogram/${w.id}`)}
+                  isExpanded={expandedId === w.id}
+                  onToggle={() => toggleExpand(w.id)}
+                  navigate={navigate}
                 />
               ))}
             </>
@@ -180,7 +187,9 @@ export default function Reprogramming() {
                   wound={w}
                   logCount={0}
                   sessionCount={sessionCounts[w.wound] || 0}
-                  onClick={() => navigate(`/reprogram/${w.id}`)}
+                  isExpanded={expandedId === w.id}
+                  onToggle={() => toggleExpand(w.id)}
+                  navigate={navigate}
                 />
               ))}
             </>
@@ -192,53 +201,178 @@ export default function Reprogramming() {
   );
 }
 
-function WoundRow({ wound, logCount, sessionCount, onClick }) {
+function WoundRow({ wound, logCount, sessionCount, isExpanded, onToggle, navigate }) {
+  const hasAudio = wound.audioUrl != null;
+
+  return (
+    <div style={{ marginBottom: '8px' }}>
+      {/* The clickable wound row itself */}
+      <button
+        onClick={onToggle}
+        style={{
+          background: isExpanded ? 'rgba(120, 145, 175, 0.08)' : 'var(--bg-card)',
+          borderRadius: isExpanded ? '10px 10px 0 0' : '10px',
+          padding: 'var(--space-4)',
+          border: isExpanded
+            ? '0.5px solid rgba(120, 145, 175, 0.3)'
+            : '0.5px solid var(--border-subtle)',
+          borderBottom: isExpanded ? 'none' : '0.5px solid var(--border-subtle)',
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          textAlign: 'left',
+          transition: 'background 0.2s ease, border-color 0.2s ease',
+        }}
+      >
+        <div style={{ flex: 1 }}>
+          <p style={{ fontSize: '15px', color: 'var(--text-primary)', marginBottom: '2px', fontWeight: 500 }}>
+            {wound.wound}
+          </p>
+          <p style={{ fontSize: '13px', color: 'var(--text-tertiary)' }}>
+            → {wound.opposite}
+          </p>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px', marginRight: '8px' }}>
+          {sessionCount > 0 && (
+            <span style={{
+              fontSize: '11px',
+              background: 'rgba(120, 145, 175, 0.12)',
+              color: 'rgb(80, 105, 140)',
+              padding: '3px 8px',
+              borderRadius: '10px',
+              fontWeight: 500,
+            }}>
+              {sessionCount}/21
+            </span>
+          )}
+          {logCount > 0 && (
+            <span style={{
+              fontSize: '10px',
+              color: 'var(--text-tertiary)',
+            }}>
+              logged {logCount}×
+            </span>
+          )}
+        </div>
+        <span
+          style={{
+            color: 'var(--text-tertiary)',
+            fontSize: '12px',
+            transform: isExpanded ? 'rotate(90deg)' : 'rotate(0deg)',
+            transition: 'transform 0.2s ease',
+            display: 'inline-block',
+          }}
+        >
+          ▶
+        </span>
+      </button>
+
+      {/* Expandable icon strip */}
+      <div
+        style={{
+          maxHeight: isExpanded ? '140px' : '0',
+          overflow: 'hidden',
+          transition: 'max-height 0.25s ease',
+          background: 'rgba(120, 145, 175, 0.04)',
+          borderRadius: '0 0 10px 10px',
+          border: isExpanded ? '0.5px solid rgba(120, 145, 175, 0.3)' : '0.5px solid transparent',
+          borderTop: 'none',
+        }}
+      >
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr 1fr',
+          gap: '8px',
+          padding: 'var(--space-3) var(--space-3) var(--space-4)',
+        }}>
+          {/* Reprogramming chat — full color */}
+          <IconOption
+            label="Start session"
+            color="rgb(80, 105, 140)"
+            icon={
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+            }
+            onClick={() => navigate(`/reprogram/${wound.id}/session`)}
+            enabled={true}
+          />
+
+          {/* Audio — grayed unless audioUrl exists */}
+          <IconOption
+            label={hasAudio ? 'Listen' : 'Audio'}
+            sublabel={hasAudio ? null : 'coming soon'}
+            color={hasAudio ? 'rgb(80, 105, 140)' : 'var(--text-tertiary)'}
+            icon={
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+              </svg>
+            }
+            onClick={hasAudio ? () => navigate(`/reprogram/${wound.id}/audio`) : undefined}
+            enabled={hasAudio}
+          />
+
+          {/* Education — full color */}
+          <IconOption
+            label="Read teaching"
+            color="rgb(80, 105, 140)"
+            icon={
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+              </svg>
+            }
+            onClick={() => navigate(`/reprogram/${wound.id}/education`)}
+            enabled={true}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function IconOption({ label, sublabel, color, icon, onClick, enabled }) {
   return (
     <button
       onClick={onClick}
+      disabled={!enabled}
       style={{
         background: 'var(--bg-card)',
+        border: `0.5px solid ${enabled ? 'var(--border-subtle)' : 'var(--border-subtle)'}`,
         borderRadius: '10px',
-        padding: 'var(--space-4)',
-        marginBottom: '8px',
-        border: '0.5px solid var(--border-subtle)',
-        width: '100%',
+        padding: 'var(--space-3) var(--space-2)',
         display: 'flex',
-        justifyContent: 'space-between',
+        flexDirection: 'column',
         alignItems: 'center',
-        textAlign: 'left',
+        gap: '4px',
+        opacity: enabled ? 1 : 0.4,
+        cursor: enabled ? 'pointer' : 'default',
+        color: color,
+        minHeight: '78px',
+        justifyContent: 'center',
       }}
     >
-      <div style={{ flex: 1 }}>
-        <p style={{ fontSize: '15px', color: 'var(--text-primary)', marginBottom: '2px', fontWeight: 500 }}>
-          {wound.wound}
-        </p>
-        <p style={{ fontSize: '13px', color: 'var(--text-tertiary)' }}>
-          → {wound.opposite}
-        </p>
-      </div>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' }}>
-        {sessionCount > 0 && (
-          <span style={{
-            fontSize: '11px',
-            background: 'rgba(120, 145, 175, 0.12)',
-            color: 'rgb(80, 105, 140)',
-            padding: '3px 8px',
-            borderRadius: '10px',
-            fontWeight: 500,
-          }}>
-            {sessionCount}/21
-          </span>
-        )}
-        {logCount > 0 && (
-          <span style={{
-            fontSize: '10px',
-            color: 'var(--text-tertiary)',
-          }}>
-            logged {logCount}×
-          </span>
-        )}
-      </div>
+      {icon}
+      <span style={{
+        fontSize: '12px',
+        fontWeight: enabled ? 500 : 400,
+        textAlign: 'center',
+        lineHeight: 1.2,
+      }}>
+        {label}
+      </span>
+      {sublabel && (
+        <span style={{
+          fontSize: '10px',
+          color: 'var(--text-tertiary)',
+          fontStyle: 'italic',
+        }}>
+          {sublabel}
+        </span>
+      )}
     </button>
   );
 }

@@ -8,7 +8,8 @@
     "gentlePrompts": [
       "Think of someone you consider 'on your level' — someone you'd call good enough. If they are, you are.",
       "Think of something small you handled this week that you weren't asked to do. That was enough."
-    ]
+    ],
+    "audioUrl": null
   },
   {
     "id": "abandoned",
@@ -19,7 +20,8 @@
     "gentlePrompts": [
       "Think of someone whose face changes when they see you.",
       "Think of someone who came back, even after a hard moment."
-    ]
+    ],
+    "audioUrl": null
   },
   {
     "id": "alone",
@@ -30,7 +32,8 @@
     "gentlePrompts": [
       "Think of who you'd actually call if something genuinely went wrong tonight.",
       "Think of a moment when someone's presence made the room feel different."
-    ]
+    ],
+    "audioUrl": null
   },
   {
     "id": "unloved",
@@ -41,7 +44,8 @@
     "gentlePrompts": [
       "Think of someone whose face changes when they see you.",
       "Think of love that's expressed without words — through showing up, remembering, asking how you are."
-    ]
+    ],
+    "audioUrl": null
   },
   {
     "id": "bad",
@@ -52,7 +56,8 @@
     "gentlePrompts": [
       "Think of a mistake you made recently — what was happening in your life at the time? What programs were running? You were doing your best with what you had.",
       "Think of how you'd describe someone else doing the exact thing you did. Would you call them bad — or human?"
-    ]
+    ],
+    "audioUrl": null
   },
   {
     "id": "weak",
@@ -63,7 +68,8 @@
     "gentlePrompts": [
       "Think of a hard thing you got through that you didn't think you could.",
       "Think of a moment when you stayed standing when something tried to knock you down."
-    ]
+    ],
+    "audioUrl": null
   },
   {
     "id": "unsafe",
@@ -74,7 +80,8 @@
     "gentlePrompts": [
       "Think of a place where your shoulders drop the moment you walk in.",
       "Think of a person whose presence settles your body."
-    ]
+    ],
+    "audioUrl": null
   },
   {
     "id": "stupid",
@@ -85,7 +92,8 @@
     "gentlePrompts": [
       "Think of a problem you figured out that others couldn't.",
       "Think of a moment when someone said 'that's a good point' and meant it."
-    ]
+    ],
+    "audioUrl": null
   },
   {
     "id": "foolish",
@@ -96,7 +104,8 @@
     "gentlePrompts": [
       "Think of a time you trusted your gut and were right.",
       "Think of advice you gave someone that helped them."
-    ]
+    ],
+    "audioUrl": null
   },
   {
     "id": "unworthy",
@@ -107,7 +116,8 @@
     "gentlePrompts": [
       "Think of something you have that you earned through real effort.",
       "Think of someone who gave you their attention or care without conditions."
-    ]
+    ],
+    "audioUrl": null
   },
   {
     "id": "helpless",
@@ -118,7 +128,8 @@
     "gentlePrompts": [
       "Think of something you handled on your own that surprised you.",
       "Think of a moment when you made a choice that changed an outcome."
-    ]
+    ],
+    "audioUrl": null
   },
   {
     "id": "unseen",
@@ -129,7 +140,8 @@
     "gentlePrompts": [
       "Think of someone who paused and noticed you recently.",
       "Think of when someone remembered something small you'd said weeks ago."
-    ]
+    ],
+    "audioUrl": null
   },
   {
     "id": "unheard",
@@ -140,7 +152,8 @@
     "gentlePrompts": [
       "Think of a conversation where you said something real and the other person actually took it in.",
       "Think of when someone changed their mind because of what you said."
-    ]
+    ],
+    "audioUrl": null
   },
   {
     "id": "unimportant",
@@ -151,7 +164,8 @@
     "gentlePrompts": [
       "Think of someone whose day is different because you're in it.",
       "Think of a place where your absence would be noticed."
-    ]
+    ],
+    "audioUrl": null
   },
   {
     "id": "defective",
@@ -162,7 +176,8 @@
     "gentlePrompts": [
       "Think of someone who knows your imperfections and stays close anyway.",
       "Think of a moment when you felt complete — nothing missing."
-    ]
+    ],
+    "audioUrl": null
   },
   {
     "id": "dont_belong",
@@ -173,7 +188,8 @@
     "gentlePrompts": [
       "Think of a place or group where your presence is just expected — no proving required.",
       "Think of a moment you walked in and felt like you fit."
-    ]
+    ],
+    "audioUrl": null
   },
   {
     "id": "disliked",
@@ -184,7 +200,8 @@
     "gentlePrompts": [
       "Think of someone whose face lights up when they see you.",
       "Think of someone who reaches out to you without being prompted."
-    ]
+    ],
+    "audioUrl": null
   },
   {
     "id": "misunderstood",
@@ -195,7 +212,8 @@
     "gentlePrompts": [
       "Think of someone who finishes your thought correctly.",
       "Think of a moment when someone said 'I get it' and they actually did."
-    ]
+    ],
+    "audioUrl": null
   },
   {
     "id": "disconnected",
@@ -206,7 +224,8 @@
     "gentlePrompts": [
       "Think of a conversation that left you feeling more yourself, not less.",
       "Think of a moment of eye contact that landed."
-    ]
+    ],
+    "audioUrl": null
   },
   {
     "id": "excluded",
@@ -217,7 +236,8 @@
     "gentlePrompts": [
       "Think of an invitation that came without you having to ask.",
       "Think of a group that made room when you arrived."
-    ]
+    ],
+    "audioUrl": null
   },
   {
     "id": "disrespected",
@@ -228,7 +248,8 @@
     "gentlePrompts": [
       "Think of someone who deferred to your judgment on something that mattered.",
       "Think of a moment when someone took your work or your word seriously."
-    ]
+    ],
+    "audioUrl": null
   },
   {
     "id": "rejected",
@@ -239,7 +260,8 @@
     "gentlePrompts": [
       "Think of someone who knows your full self and stays anyway.",
       "Think of a yes you received that you weren't sure was coming."
-    ]
+    ],
+    "audioUrl": null
   },
   {
     "id": "trapped",
@@ -250,7 +272,8 @@
     "gentlePrompts": [
       "Think of a recent choice you made — even a small one — that was fully yours.",
       "Think of a moment when you walked away from something that wasn't serving you."
-    ]
+    ],
+    "audioUrl": null
   },
   {
     "id": "stuck",
@@ -261,7 +284,8 @@
     "gentlePrompts": [
       "Think of something in your life that's different than it was a year ago.",
       "Think of a small step you took recently that took real effort."
-    ]
+    ],
+    "audioUrl": null
   },
   {
     "id": "powerless",
@@ -272,7 +296,8 @@
     "gentlePrompts": [
       "Think of a time you said no and held the line.",
       "Think of a situation you shaped because of what you did."
-    ]
+    ],
+    "audioUrl": null
   },
   {
     "id": "no_control",
@@ -283,7 +308,8 @@
     "gentlePrompts": [
       "Think of a moment you chose your response, even when you couldn't choose what happened.",
       "Think of a recent decision that was fully yours to make."
-    ]
+    ],
+    "audioUrl": null
   },
   {
     "id": "betrayed",
@@ -294,6 +320,7 @@
     "gentlePrompts": [
       "Think of someone who kept their word to you when no one was watching.",
       "Think of someone who chose your interest over their own convenience."
-    ]
+    ],
+    "audioUrl": null
   }
 ]
