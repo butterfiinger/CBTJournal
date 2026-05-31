@@ -203,30 +203,6 @@ export default function ReprogramSession() {
     requestAIResponse(newHistory);
   };
 
-  // "Learn more about this core wound" — fires a separate teaching summary call
-  const handleLearnMore = async () => {
-    if (isLoading || !woundData) return;
-    setMessages((prev) => [...prev, { role: 'user', text: 'Tell me more about this wound' }]);
-    setIsLoading(true);
-    setError(null);
-    try {
-      const result = await callReprogrammingAI({
-        history: [{ role: 'user', content: `Please give me the full teaching about "${woundData.wound}" again.` }],
-        wound: woundData.wound,
-        opposite: woundData.opposite,
-        teaching: woundData.teaching,
-        sessionNumber,
-        requestType: 'teaching_summary',
-      });
-      setMessages((prev) => [...prev, { role: 'ai', text: result.message }]);
-    } catch (err) {
-      console.error('Teaching summary failed:', err);
-      setError('Couldn\'t load the teaching. Try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const handleDone = () => {
     if (isFinished) {
       navigate('/');
@@ -345,25 +321,6 @@ export default function ReprogramSession() {
               }}
             >
               Need more help
-            </button>
-          </div>
-        )}
-
-        {/* "Learn more about this core wound" — always available once the session has started, until finished */}
-        {!isLoading && !isFinished && hasStarted && messages.length > 0 && (
-          <div style={{ display: 'flex', marginBottom: 'var(--space-4)' }}>
-            <button
-              onClick={handleLearnMore}
-              style={{
-                background: 'transparent',
-                border: '0.5px solid rgba(120, 145, 175, 0.4)',
-                color: 'rgb(80, 105, 140)',
-                fontSize: '12px',
-                padding: '6px 12px',
-                borderRadius: 'var(--radius-pill)',
-              }}
-            >
-              Learn more about this core wound
             </button>
           </div>
         )}

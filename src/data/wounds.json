@@ -9,7 +9,7 @@
       "Think of someone you consider 'on your level' — someone you'd call good enough. If they are, you are.",
       "Think of something small you handled this week that you weren't asked to do. That was enough."
     ],
-    "audioUrl": null
+    "audioUrl": "/audio/i-am-enough.mp3"
   },
   {
     "id": "abandoned",
@@ -21,7 +21,7 @@
       "Think of someone whose face changes when they see you.",
       "Think of someone who came back, even after a hard moment."
     ],
-    "audioUrl": null
+    "audioUrl": "/audio/abandoned-alone.mp3"
   },
   {
     "id": "alone",
@@ -33,7 +33,7 @@
       "Think of who you'd actually call if something genuinely went wrong tonight.",
       "Think of a moment when someone's presence made the room feel different."
     ],
-    "audioUrl": null
+    "audioUrl": "/audio/abandoned-alone.mp3"
   },
   {
     "id": "unloved",
@@ -45,7 +45,7 @@
       "Think of someone whose face changes when they see you.",
       "Think of love that's expressed without words — through showing up, remembering, asking how you are."
     ],
-    "audioUrl": null
+    "audioUrl": "/audio/i-am-worthy.mp3"
   },
   {
     "id": "bad",
@@ -57,7 +57,7 @@
       "Think of a mistake you made recently — what was happening in your life at the time? What programs were running? You were doing your best with what you had.",
       "Think of how you'd describe someone else doing the exact thing you did. Would you call them bad — or human?"
     ],
-    "audioUrl": null
+    "audioUrl": "/audio/i-am-innocent.mp3"
   },
   {
     "id": "weak",
@@ -69,7 +69,7 @@
       "Think of a hard thing you got through that you didn't think you could.",
       "Think of a moment when you stayed standing when something tried to knock you down."
     ],
-    "audioUrl": null
+    "audioUrl": "/audio/i-am-strong.mp3"
   },
   {
     "id": "unsafe",
@@ -81,7 +81,7 @@
       "Think of a place where your shoulders drop the moment you walk in.",
       "Think of a person whose presence settles your body."
     ],
-    "audioUrl": null
+    "audioUrl": "/audio/i-am-safe.mp3"
   },
   {
     "id": "stupid",
@@ -93,7 +93,7 @@
       "Think of a problem you figured out that others couldn't.",
       "Think of a moment when someone said 'that's a good point' and meant it."
     ],
-    "audioUrl": null
+    "audioUrl": "/audio/i-am-smart.mp3"
   },
   {
     "id": "foolish",
@@ -105,7 +105,7 @@
       "Think of a time you trusted your gut and were right.",
       "Think of advice you gave someone that helped them."
     ],
-    "audioUrl": null
+    "audioUrl": "/audio/i-am-smart.mp3"
   },
   {
     "id": "unworthy",
@@ -117,7 +117,7 @@
       "Think of something you have that you earned through real effort.",
       "Think of someone who gave you their attention or care without conditions."
     ],
-    "audioUrl": null
+    "audioUrl": "/audio/i-am-worthy.mp3"
   },
   {
     "id": "helpless",
@@ -141,7 +141,7 @@
       "Think of someone who paused and noticed you recently.",
       "Think of when someone remembered something small you'd said weeks ago."
     ],
-    "audioUrl": null
+    "audioUrl": "/audio/i-am-seen.mp3"
   },
   {
     "id": "unheard",
@@ -153,7 +153,7 @@
       "Think of a conversation where you said something real and the other person actually took it in.",
       "Think of when someone changed their mind because of what you said."
     ],
-    "audioUrl": null
+    "audioUrl": "/audio/i-am-seen.mp3"
   },
   {
     "id": "unimportant",
@@ -165,7 +165,7 @@
       "Think of someone whose day is different because you're in it.",
       "Think of a place where your absence would be noticed."
     ],
-    "audioUrl": null
+    "audioUrl": "/audio/i-matter.mp3"
   },
   {
     "id": "defective",
@@ -189,7 +189,7 @@
       "Think of a place or group where your presence is just expected — no proving required.",
       "Think of a moment you walked in and felt like you fit."
     ],
-    "audioUrl": null
+    "audioUrl": "/audio/i-am-accepted.mp3"
   },
   {
     "id": "disliked",
@@ -201,7 +201,7 @@
       "Think of someone whose face lights up when they see you.",
       "Think of someone who reaches out to you without being prompted."
     ],
-    "audioUrl": null
+    "audioUrl": "/audio/i-am-accepted.mp3"
   },
   {
     "id": "misunderstood",
@@ -213,7 +213,7 @@
       "Think of someone who finishes your thought correctly.",
       "Think of a moment when someone said 'I get it' and they actually did."
     ],
-    "audioUrl": null
+    "audioUrl": "/audio/i-am-seen.mp3"
   },
   {
     "id": "disconnected",
@@ -261,7 +261,7 @@
       "Think of someone who knows your full self and stays anyway.",
       "Think of a yes you received that you weren't sure was coming."
     ],
-    "audioUrl": null
+    "audioUrl": "/audio/i-am-accepted.mp3"
   },
   {
     "id": "trapped",
