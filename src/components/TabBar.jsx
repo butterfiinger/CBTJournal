@@ -28,7 +28,7 @@ export default function TabBar() {
   const location = useLocation();
 
   // Hide tab bar on all sub-page modal flows
-  const hiddenPaths = ['/capture', '/log-good-moment', '/process', '/settings', '/reprogram'];
+  const hiddenPaths = ['/capture', '/log-good-moment', '/process', '/settings'];
   const isHiddenPath = hiddenPaths.some((path) => location.pathname.startsWith(path));
   if (isHiddenPath) {
     return null;
