@@ -12,6 +12,7 @@ import Settings from './pages/Settings';
 import Reprogramming from './pages/Reprogramming';
 import ReprogramSession from './pages/ReprogramSession';
 import ReprogramEducation from './pages/ReprogramEducation';
+import ReprogramAudio from './pages/ReprogramAudio';
 import HomeScreenPrompt from './components/HomeScreenPrompt';
 import TabBar from './components/TabBar';
 
@@ -76,6 +77,7 @@ function App() {
         <Route path="/reprogram" element={<Reprogramming />} />
         <Route path="/reprogram/:woundId/session" element={<ReprogramSession />} />
         <Route path="/reprogram/:woundId/education" element={<ReprogramEducation />} />
+        <Route path="/reprogram/:woundId/audio" element={<ReprogramAudio />} />
         <Route path="/settings" element={<Settings onReplayOnboarding={() => setShowOnboarding(true)} />} />
       </Routes>
       <TabBar />
