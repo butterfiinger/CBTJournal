@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ChipRow from '../components/ChipRow';
 import ShowAllSheet from '../components/ShowAllSheet';
+import PhotoUploadButton from '../components/PhotoUploadButton';
 import { saveEntry } from '../lib/storage';
 import wounds from '../data/wounds.json';
 import defaults from '../data/defaults.json';
@@ -14,6 +15,7 @@ export default function LogGoodMoment() {
   const [senseDetail, setSenseDetail] = useState('');
   const [showAllOpposites, setShowAllOpposites] = useState(false);
   const [showAllEmotions, setShowAllEmotions] = useState(false);
+  const [photoError, setPhotoError] = useState(null);
 
   // Build the wound-opposites list from wounds data
   const allWoundOpposites = useMemo(() => {
@@ -71,13 +73,31 @@ export default function LogGoodMoment() {
 
         <div className="section">
           <label className="field-label">What happened</label>
-          <textarea
-            className="text-input"
-            placeholder="A sentence is enough. Whatever made the moment land..."
-            value={situation}
-            onChange={(e) => setSituation(e.target.value)}
-            rows={3}
-          />
+          <div style={{ position: 'relative' }}>
+            <textarea
+              className="text-input"
+              placeholder="A sentence is enough. Whatever made the moment land..."
+              value={situation}
+              onChange={(e) => setSituation(e.target.value)}
+              rows={3}
+              style={{ paddingRight: '52px' }}
+            />
+            <div style={{ position: 'absolute', bottom: '10px', right: '10px' }}>
+              <PhotoUploadButton
+                size="sm"
+                onExtracted={(text) => {
+                  setSituation((prev) => (prev ? `${prev}\n\n${text}` : text));
+                  setPhotoError(null);
+                }}
+                onError={(msg) => setPhotoError(msg)}
+              />
+            </div>
+          </div>
+          {photoError && (
+            <p style={{ fontSize: '13px', color: 'var(--accent-warm)', marginTop: '8px' }}>
+              {photoError}
+            </p>
+          )}
         </div>
 
         <div className="section">

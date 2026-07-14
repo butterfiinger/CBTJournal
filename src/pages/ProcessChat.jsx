@@ -9,6 +9,7 @@ import needs from '../data/needs.json';
 import defaults from '../data/defaults.json';
 import ShowAllSheet from '../components/ShowAllSheet';
 import EvidenceCard from '../components/EvidenceCard';
+import PhotoUploadButton from '../components/PhotoUploadButton';
 
 const STEP_LABELS = {
   1: 'the situation',
@@ -547,6 +548,14 @@ export default function ProcessChat() {
           }}
           disabled={isLoading}
           style={{ borderRadius: 'var(--radius-pill)', minHeight: '48px' }}
+        />
+        <PhotoUploadButton
+          size="md"
+          disabled={isLoading}
+          onExtracted={(text) => {
+            setInputText((prev) => (prev ? `${prev} ${text}` : text));
+          }}
+          onError={(msg) => setError(msg)}
         />
         <button
           onClick={handleSend}

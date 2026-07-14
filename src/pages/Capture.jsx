@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ChipRow from '../components/ChipRow';
 import ShowAllSheet from '../components/ShowAllSheet';
+import PhotoUploadButton from '../components/PhotoUploadButton';
 import { saveEntry } from '../lib/storage';
 import wounds from '../data/wounds.json';
 import emotions from '../data/emotions.json';
@@ -15,6 +16,7 @@ export default function Capture() {
   const [contextNote, setContextNote] = useState('');
   const [showAllWounds, setShowAllWounds] = useState(false);
   const [showAllEmotions, setShowAllEmotions] = useState(false);
+  const [photoError, setPhotoError] = useState(null);
 
   const woundChipOptions = defaults.defaultWoundChips;
   const emotionChipOptions = defaults.defaultEmotionChips;
@@ -75,13 +77,31 @@ export default function Capture() {
         <div className="app-content" style={{ paddingTop: 'var(--space-5)' }}>
         <div className="section">
           <label className="field-label">What happened</label>
-          <textarea
-            className="text-input"
-            placeholder="A sentence or two. Just enough to remember the moment..."
-            value={situation}
-            onChange={(e) => setSituation(e.target.value)}
-            rows={3}
-          />
+          <div style={{ position: 'relative' }}>
+            <textarea
+              className="text-input"
+              placeholder="A sentence or two. Just enough to remember the moment..."
+              value={situation}
+              onChange={(e) => setSituation(e.target.value)}
+              rows={3}
+              style={{ paddingRight: '52px' }}
+            />
+            <div style={{ position: 'absolute', bottom: '10px', right: '10px' }}>
+              <PhotoUploadButton
+                size="sm"
+                onExtracted={(text) => {
+                  setSituation((prev) => (prev ? `${prev}\n\n${text}` : text));
+                  setPhotoError(null);
+                }}
+                onError={(msg) => setPhotoError(msg)}
+              />
+            </div>
+          </div>
+          {photoError && (
+            <p style={{ fontSize: '13px', color: 'var(--accent-warm)', marginTop: '8px' }}>
+              {photoError}
+            </p>
+          )}
         </div>
 
         {/* Emotions now appear BEFORE wounds — easier to identify in the moment */}
