@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import wounds from '../data/wounds.json';
 import { saveEntry } from '../lib/storage';
 import { getSessionCountByWound } from '../lib/streaks';
+import PhotoUploadButton from '../components/PhotoUploadButton';
 
 // Calls the dedicated /api/reprogram endpoint
 async function callReprogrammingAI({ history, wound, opposite, teaching, sessionNumber, requestType }) {
@@ -362,6 +363,14 @@ export default function ReprogramSession() {
             onKeyDown={(e) => { if (e.key === 'Enter' && !isLoading) handleSend(); }}
             disabled={isLoading}
             style={{ borderRadius: 'var(--radius-pill)', minHeight: '48px' }}
+          />
+          <PhotoUploadButton
+            size="md"
+            disabled={isLoading}
+            onExtracted={(text) => {
+              setInputText((prev) => prev ? `${prev} ${text}` : text);
+            }}
+            onError={(msg) => setError(msg)}
           />
           <button
             onClick={handleSend}
