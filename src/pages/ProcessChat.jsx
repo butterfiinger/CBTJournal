@@ -46,11 +46,34 @@ export default function ProcessChat() {
   const [hasInitialized, setHasInitialized] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
 
+  // Step 4 loops once per wound, in the order the user selected them
+  const [woundIndex, setWoundIndex] = useState(0);
+  const [skippedWounds, setSkippedWounds] = useState([]);
+
   const allWoundsList = useMemo(() => wounds.map((w) => w.wound), []);
   const allEmotionsList = useMemo(() => emotions.map((e) => e.emotion), []);
   const allNeedsList = useMemo(() => needs.map((n) => n.need), []);
 
   const getWoundData = (woundText) => wounds.find((w) => w.wound === woundText);
+
+  // Context the AI needs to work through Step 4 one wound at a time
+  const buildWoundContext = (woundList, index, skipped) => {
+    if (!woundList || woundList.length === 0) return {};
+    const safeIndex = Math.min(index, woundList.length - 1);
+    const currentWound = woundList[safeIndex];
+    const nextWound = woundList[safeIndex + 1] || null;
+    return {
+      currentWound,
+      currentWoundPhrasing: getWoundData(currentWound)?.aiPhrasing || null,
+      woundIndex: safeIndex,
+      totalWounds: woundList.length,
+      isLastWound: safeIndex === woundList.length - 1,
+      nextWound,
+      nextWoundPhrasing: nextWound ? getWoundData(nextWound)?.aiPhrasing || null : null,
+      allWoundsInOrder: woundList,
+      skippedWounds: skipped,
+    };
+  };
 
   // Initial load — restore saved chat state if it exists
   useEffect(() => {
@@ -80,6 +103,8 @@ export default function ProcessChat() {
       setCurrentStep(cs.currentStep || 1);
       setStepData(cs.stepData || { emotions: [], wounds: [], needs: [], proofs: [], strategy: '' });
       setActiveChips(cs.activeChips || { type: null, suggestions: null });
+      setWoundIndex(cs.woundIndex || 0);
+      setSkippedWounds(cs.skippedWounds || []);
       return;
     }
 
@@ -145,9 +170,11 @@ export default function ProcessChat() {
         currentStep,
         stepData,
         activeChips,
+        woundIndex,
+        skippedWounds,
       },
     });
-  }, [messages, apiHistory, currentStep, stepData, activeChips, hasInitialized, isFinished]);
+  }, [messages, apiHistory, currentStep, stepData, activeChips, woundIndex, skippedWounds, hasInitialized, isFinished]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -157,9 +184,19 @@ export default function ProcessChat() {
     setIsLoading(true);
     setError(null);
 
+    // Steps 3 and 4 get the wound loop context (Step 3 hands off into the first wound's proofs).
+    // Callers can pass woundList / woundIndex explicitly when state hasn't caught up yet.
+    const woundList = contextData.woundList || stepData.wounds;
+    const activeWoundIndex = contextData.woundIndex ?? woundIndex;
+    const woundContext =
+      contextData.currentStep === 3 || contextData.currentStep === 4
+        ? buildWoundContext(woundList, activeWoundIndex, contextData.skippedWounds || skippedWounds)
+        : {};
+
     try {
       const enrichedContext = {
         ...contextData,
+        ...woundContext,
         canonicalLists: {
           wounds: allWoundsList,
           emotions: allEmotionsList,
@@ -201,6 +238,21 @@ export default function ProcessChat() {
         setActiveChips({ type: null, suggestions: null });
       }
 
+      // The AI reports the wounds the user landed on (in their order) when leaving Step 2
+      if (Array.isArray(aiResponse.landedWounds) && aiResponse.landedWounds.length > 0) {
+        const canonical = aiResponse.landedWounds.filter((w) => allWoundsList.includes(w));
+        if (canonical.length > 0) {
+          setStepData((prev) => ({ ...prev, wounds: canonical }));
+          setWoundIndex(0);
+          setSkippedWounds([]);
+        }
+      }
+
+      // Finished the current wound's proofs — move on to the next wound, staying at Step 4
+      if (aiResponse.advanceToNextWound && woundContext.currentWound && !woundContext.isLastWound) {
+        setWoundIndex(woundContext.woundIndex + 1);
+      }
+
       if (aiResponse.advanceToStep) {
         setCurrentStep(aiResponse.advanceToStep);
       }
@@ -230,6 +282,8 @@ export default function ProcessChat() {
       wounds: finalEntry?.wounds || stepData.wounds,
       emotions: finalEntry?.emotions || stepData.emotions,
       proofs: finalEntry?.proofs || stepData.proofs,
+      proofsByWound: finalEntry?.proofsByWound || null,
+      skippedWounds,
       needs: finalEntry?.needs || stepData.needs,
       strategy: finalEntry?.strategy || stepData.strategy,
       processedAt: new Date().toISOString(),
@@ -308,12 +362,13 @@ export default function ProcessChat() {
   const handleNeedHelp = () => {
     if (isLoading) return;
 
-    const primaryWound = stepData.wounds[0];
-    const woundData = getWoundData(primaryWound);
+    // Fresh retrieval for whichever wound is active in the Step 4 loop
+    const activeWound = stepData.wounds[woundIndex] || stepData.wounds[0];
+    const woundData = getWoundData(activeWound);
     const gentlePrompt = woundData?.gentlePrompts?.[0];
 
     // Retrieve matching bank entries for this wound
-    const matches = retrieveBankMatches(primaryWound, 3);
+    const matches = retrieveBankMatches(activeWound, 3);
 
     setMessages((prev) => [...prev, { role: 'user', text: 'Need help' }]);
 
@@ -332,9 +387,46 @@ export default function ProcessChat() {
     });
   };
 
+  const handleSkipWound = () => {
+    if (isLoading) return;
+
+    const skipped = stepData.wounds[woundIndex];
+    if (!skipped) return;
+
+    const newSkipped = [...skippedWounds, skipped];
+    const isLast = woundIndex >= stepData.wounds.length - 1;
+
+    setMessages((prev) => [...prev, { role: 'user', text: 'Skip this wound' }]);
+    const newHistory = [
+      ...apiHistory,
+      { role: 'user', content: `I'd like to leave "${skipped}" here for now and move on.` },
+    ];
+    setApiHistory(newHistory);
+    setActiveChips({ type: null, suggestions: null });
+    setSkippedWounds(newSkipped);
+
+    if (isLast) {
+      // Skipped the last wound — move straight to the unmet need
+      setCurrentStep(5);
+      requestAIResponse(newHistory, { currentStep: 5, entryData: entry });
+    } else {
+      const nextIndex = woundIndex + 1;
+      setWoundIndex(nextIndex);
+      requestAIResponse(newHistory, {
+        currentStep: 4,
+        entryData: entry,
+        woundIndex: nextIndex,
+        skippedWounds: newSkipped,
+      });
+    }
+  };
+
   if (!entry) {
     return <div className="app-content">Loading...</div>;
   }
+
+  const isMultiWound = stepData.wounds.length > 1;
+  const activeWound = stepData.wounds[Math.min(woundIndex, stepData.wounds.length - 1)];
 
   const chipOptions = activeChips.suggestions;
   const chipSelected = activeChips.type ? stepData[activeChips.type] || [] : [];
@@ -353,6 +445,11 @@ export default function ProcessChat() {
           <p style={{ fontSize: '10px', color: 'var(--text-tertiary)', marginTop: '2px' }}>
             Step {currentStep} of 6 · {STEP_LABELS[currentStep]}
           </p>
+          {currentStep === 4 && isMultiWound && (
+            <p style={{ fontSize: '10px', color: 'var(--text-tertiary)', marginTop: '1px' }}>
+              Wound {Math.min(woundIndex, stepData.wounds.length - 1) + 1} of {stepData.wounds.length} · {activeWound}
+            </p>
+          )}
         </div>
         <span style={{ width: '24px' }}></span>
       </div>
@@ -515,6 +612,14 @@ export default function ProcessChat() {
               >
                 Need help
               </button>
+              {isMultiWound && (
+                <button
+                  onClick={handleSkipWound}
+                  style={{ fontSize: '13px', color: 'var(--text-secondary)', textDecoration: 'underline', marginLeft: 'var(--space-2)' }}
+                >
+                  {woundIndex >= stepData.wounds.length - 1 ? 'Skip this wound →' : 'Skip to next wound →'}
+                </button>
+              )}
             </div>
           </div>
         )}

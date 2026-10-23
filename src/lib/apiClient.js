@@ -23,6 +23,21 @@ export async function callAI(conversationMessages, contextData = {}) {
     fullSystemPrompt += `\n\nCanonical lists available for chip suggestions:\n${JSON.stringify(contextData.canonicalLists, null, 2)}`;
   }
 
+  if (contextData.currentWound) {
+    const position = `wound ${contextData.woundIndex + 1} of ${contextData.totalWounds}`;
+    fullSystemPrompt += `\n\nSTEP 4 WOUND CONTEXT\nCurrent wound: "${contextData.currentWound}" (${position})${contextData.isLastWound ? ' — this is the LAST wound' : ''}.`;
+    if (contextData.currentWoundPhrasing) {
+      fullSystemPrompt += `\nAI phrasing for this wound: "${contextData.currentWoundPhrasing}"`;
+    }
+    if (contextData.nextWound) {
+      fullSystemPrompt += `\nNext wound in the order: "${contextData.nextWound}"${contextData.nextWoundPhrasing ? ` (AI phrasing: "${contextData.nextWoundPhrasing}")` : ''}.`;
+    }
+    fullSystemPrompt += `\nFull wound order: ${contextData.allWoundsInOrder.map((w) => `"${w}"`).join(' → ')}`;
+    if (contextData.skippedWounds && contextData.skippedWounds.length > 0) {
+      fullSystemPrompt += `\nWounds the user chose to skip: ${contextData.skippedWounds.map((w) => `"${w}"`).join(', ')}`;
+    }
+  }
+
   if (contextData.bankMatches) {
     fullSystemPrompt += `\n\nBank entries matched for this wound (use these when surfacing evidence at Step 4):\n${JSON.stringify(contextData.bankMatches, null, 2)}`;
   }
